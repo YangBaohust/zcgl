@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html  lang="en">
+{% load staticfiles %}
+<head>
+	<meta charset="UTF-8">
+	<title>404</title>
+    <link rel="stylesheet" href="{% static 'css/error-page.css' %}">
+</head>
+<body>
+    <div class="p404">
+        <img src="{% static 'images/500.png' %}"/>
+        <br/><br/>
+        <p>服务器错误，请稍后重新刷新~</p>
+        <a href="{% url 'index' %}">回到首页</a>
+    </div>
+</body>
+</html>

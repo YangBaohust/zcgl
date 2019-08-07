@@ -1,0 +1,80 @@
+.wrapper .content-note1, .wrapper .content-note2{
+    clear: both;
+    font-size: 18px;
+    width:650px;
+    height: 30px;
+    text-align: center;
+}
+
+.wrapper .content-note2{
+    font-size: 14px;
+}
+
+.form-table{
+    width: 650px;
+    padding: 10px 0 80px 0;
+    border-radius: 10px;
+    background: #f1f1f1;
+    color: #000;
+    margin-top: 10px;
+}
+
+.form-list{
+    width: 600px;
+    /*text-align: center;*/
+    padding-left: 50px;
+    line-height: 35px;
+}
+
+.form-list span{
+    display: inline-block;
+    text-align: left;
+    width: 100px;
+    font-size: 14px;
+}
+
+.comment{
+    vertical-align: top;
+}
+
+.form-list input,.form-list select{
+    width: 400px;
+    height: 25px;
+}
+
+.form-list .input-error{
+    border-color: #f00;
+    box-shadow: 0 0 3px #aa0b0b;
+}
+
+.form-list .form-button{
+    margin: 25px 0 0 50px;
+    float: left;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background: rgba(82, 183, 109, 1);
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-list select{
+    width: 404px;
+    height: 29px;
+    margin-left: -5px;
+}
+
+.error{
+    font-size: 14px;
+    position: relative;
+    float: left;
+    left: 110px;
+    top: 10px;
+    color: red;
+}
+
+.textarea{
+    margin-top: 6px;
+    width: 402px;
+    height: 65px;
+}

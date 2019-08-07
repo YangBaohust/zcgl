@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 资产类型{% endblock %}
+{% block custome_css %}
+    <link rel="stylesheet" href="{% static 'servers/css/server-list.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p>资产类型列表</p>
+        <button class="button-insert" id="btn_add">添加类型</button>
+        <br/><br/>
+        <table class="table-list type-list">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>资产类型</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servertype in server_types %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'servers:type_detail' servertype.id %}">{{ servertype.zctype }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        var btn_server_add = document.getElementById("btn_add");
+        btn_server_add.onclick = function () {
+            location.href = "{% url 'servers:type_add' %}";
+        };
+    </script>
+{% endblock %}

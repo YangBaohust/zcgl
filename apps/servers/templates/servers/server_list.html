@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 资产列表{% endblock %}
+{% block custome_css %}{% endblock %}
+{% block content %}
+    <div class="content">
+        <p>资产列表</p>
+        <div class="form-class">
+            <form action="" method="get">
+                <input id="search" class="form-text" type="text" placeholder="搜索..." name="search" value="{% if search %}{{ search }}{% endif %}"/>
+                <button class="form-submit" type="submit">
+                    <i class='fa fa-search' aria-hidden='true'></i>
+                </button>
+            </form>
+        </div>
+        {% if request.user.isadmin == '1' or request.user.is_superuser == 1 %}
+            <button class="button-insert" id="btn_add">添加资产</button>
+            <button class="button-insert" id="btn_export_list">导出列表</button>
+        {% endif %}
+        <br/><br/>
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>资产类型</th>
+                    <th>IP地址</th>
+                    <th>功能描述</th>
+                    <th>设备品牌</th>
+                    <th>设备型号</th>
+                    <th>设备序号</th>
+                    <th>设备配置</th>
+                    <th>管理人员</th>
+                    <th>所在网络</th>
+                    <th>保修期</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for server in p_servers.object_list %}
+                    <tr>
+                        <td>{{ forloop.counter|add:start }}</td>
+                        {% if request.user.isadmin == '1' or request.user.is_superuser == 1 %}
+                            <td><a href="{% url 'servers:server_detail' server.id %}">{{ server.zctype }}</a></td>
+                        {% else %}
+                            <td>{{ server.zctype }}</td>
+                        {% endif %}
+                        <td>{{ server.ipaddress }}</td>
+                        <td>{{ server.description }}</td>
+                        <td>{{ server.brand }}</td>
+                        <td>{{ server.zcmodel }}</td>
+                        <td>{{ server.zcnumber }}</td>
+                        <td>{{ server.zcpz }}</td>
+                        <td>{{ server.owner.username }}</td>
+                        <td>{{ server.undernet }}</td>
+                        <td>{{ server.guartime }}</td>
+                        <td><div class="more-text">{{ server.comment }}</div></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="page">
+            <ul class="pagination">
+                {% if p_servers.has_previous %}
+                    <li><a href="?{{ p_servers.previous_page_number.querystring }}">&laquo;</a></li>
+                {% endif %}
+                {% for page in p_servers.pages %}
+                    {% if page %}
+                        {% ifequal page p_servers.number %}
+                            <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li>...</li>
+                    {% endif %}
+                {% endfor %}
+                {% if p_servers.has_next %}
+                    <li><a href="?{{ p_servers.next_page_number.querystring }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        var btn_server_add = document.getElementById("btn_add");
+        btn_server_add.onclick = function () {
+            location.href = "{% url 'servers:server_add' %}";
+        };
+
+        var btn_export_list = document.getElementById("btn_export_list");
+        btn_export_list.onclick = function() {
+            var search = document.getElementById("search").value;
+            var url = "{% url 'servers:server_export' %}";
+            location.href = url + '?search=' + search;
+        }
+    </script>
+{% endblock %}

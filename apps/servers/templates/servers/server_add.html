@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 添加资产{% endblock %}
+{% block custome_css %}
+    <link rel="stylesheet" href="{% static 'servers/css/server-add.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p class="content-note1">添加资产<span class="content-note2"> (标注为*为必填项)</span></p>
+        <div style="clear:both"></div>
+        <form class="form-table" action="{% url 'servers:server_add' %}" method="post">
+            <div class="form-list">
+                <span>*资产类型</span>
+                <select {% if server_form.errors.zctype %}class="input-error"{% endif %} name="zctype">
+                    <option style="display: none;" disabled selected>请选择</option>
+                    {% for server_type in server_types %}
+                        <option value="{{ server_type.id }}">{{ server_type.zctype }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-list">
+                <span>IP地址</span><input {% if server_form.errors.ipaddress %}class="input-error"{% endif %} type="text" name="ipaddress" placeholder="不超过100个字符"/>
+            </div>
+            <div class="form-list">
+                <span>功能描述</span><input {% if server_form.errors.description %}class="input-error"{% endif %} type="text" name="description" placeholder="不超过50个字符"/>
+            </div>
+            <div class="form-list">
+                <span>设备品牌</span><input {% if server_form.errors.brand %}class="input-error"{% endif %} type="text" name="brand" placeholder="不超过50个字符"/>
+            </div>
+            <div class="form-list">
+                <span>设备型号</span><input {% if server_form.errors.zcmodel %}class="input-error"{% endif %} type="text" name="zcmodel" placeholder="不超过50个字符"/>
+            </div>
+            <div class="form-list">
+                <span>设备序号</span><input {% if server_form.errors.zcnumber %}class="input-error"{% endif %} type="text" name="zcnumber" placeholder="不超过50个字符"/>
+            </div>
+            <div class="form-list">
+                <span>设备配置</span><input {% if server_form.errors.zcpz %}class="input-error"{% endif %} type="text" name="zcpz" placeholder="不超过100个字符"/>
+            </div>
+            <div class="form-list">
+                <span>*管理人员</span>
+                <select {% if server_form.errors.owner %}class="input-error"{% endif %} name="owner">
+                    <option style="display: none;" disabled selected>请选择</option>
+                    <option value="0">无</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-list">
+                <span>*所在网络</span>
+                <select name="undernet" {% if server_form.errors.undernet %}class="input-error"{% endif %}>
+                    <option style="display: none;" disabled selected>请选择</option>
+                    <option value="办公">办公</option>
+                    <option value="生产">生产</option>
+                    <option value="闲置">闲置</option>
+                </select>
+            </div>
+            <div class="form-list">
+                <span>保修期</span><input {% if server_form.errors.guartime %}class="input-error"{% endif %} type="text" name="guartime" placeholder="格式示例:年-月-日,如2018-8-8"/>
+            </div>
+             <div class="form-list">
+                <span class="comment">备注</span><textarea class="textarea {% if server_form.errors.comment %}input-error{% endif %}" name="comment" placeholder="不超过300个字符"></textarea>
+            </div>
+            {% if msg %}
+                <div class="error">{{ msg }}</div>
+            {% endif %}
+            <div style="clear:both"></div>
+            <div class="form-list">
+                <input class="form-button" type="submit"/>
+            </div>
+            <div class="form-list">
+                 <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        function btn_cancel() {
+            location.href = "{% url 'servers:server_list' %}";
+        }
+    </script>
+{% endblock %}

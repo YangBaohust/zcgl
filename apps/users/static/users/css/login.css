@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.login-bg{
+    background: url('../images/login-bg.png') no-repeat;
+    background-size: cover;
+}
+
+.login-content{
+    height: 340px;
+    width: 420px;
+    margin: 105px auto 0;
+    background: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.login-title{
+    width: 400px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 24px;
+    color: #fff;
+    margin: 10px 0 10px 0;
+    padding: 10px;
+    background: rgb(24, 159, 146);
+}
+
+.login-input{
+    display: block;
+    width: 300px;
+    height: 40px;
+    margin: 20px auto;
+}
+
+.topline{
+    margin: 50px auto 0;
+}
+
+.login-submit{
+    margin-top: 60px;
+    cursor: pointer;
+}
+
+.input-error{
+    border-color: #f00;
+    box-shadow: 0 0 3px #aa0b0b;
+}
+
+.error{
+    font-size:14px;
+    position: relative;
+    float: left;
+    left: 110px;
+    color: red;
+}

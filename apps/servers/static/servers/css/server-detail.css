@@ -1,0 +1,11 @@
+.form-list .form-button-del{
+    background: red;
+}
+
+.form-list .form-button-pwdreset{
+    background: #aa0b0b;
+}
+
+.form-list .form-button{
+    margin: 25px 0 0 30px;
+}

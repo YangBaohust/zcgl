@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 添加类型{% endblock %}
+{% block custome_css %}
+    <link rel="stylesheet" href="{% static 'servers/css/server-add.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p class="content-note1">添加类型<span class="content-note2"> (标注为*为必填项)</span></p>
+        <div style="clear:both"></div>
+        <form class="form-table" action="{% url 'servers:type_add' %}" method="post">
+            <div class="form-list">
+                <span>*资产类型</span><input {% if servertype_form.errors.zctype %}class="input-error"{% endif %} type="text" name="zctype" placeholder="不超过20个字符"/>
+            </div>
+            {% if msg %}
+                <div class="error">{{ msg }}</div>
+            {% endif %}
+            <div style="clear:both"></div>
+            <div class="form-list">
+                <input class="form-button" type="submit"/>
+            </div>
+            <div class="form-list">
+                 <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        function btn_cancel() {
+            location.href = "{% url 'servers:type_list' %}";
+        }
+    </script>
+{% endblock %}

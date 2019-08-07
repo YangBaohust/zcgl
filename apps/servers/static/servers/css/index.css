@@ -1,0 +1,26 @@
+.wrapper .content p{
+    text-align: center;
+}
+
+.table-left, .table-middle, .table-right{
+    float:left;
+    width:35%;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.table-left th{
+    background-color:#666;
+}
+
+.table-middle th{
+    background-color: #009;
+}
+
+.table-right th{
+    background-color: #060;
+}
+
+.table-line{
+    width: 20%;
+}

@@ -1,0 +1,201 @@
+*{
+    margin: 0;
+    padding:0;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
+li{
+    list-style-type: none;
+}
+
+button:hover{
+    cursor: pointer
+}
+
+.nav{
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(to left, rgba(1, 170, 237, 1), rgba(82, 183, 109, 1));
+}
+
+.nav-left{
+    font-size: 16px;
+    color: #fff;
+    width: 180px;
+    line-height: 48px;
+    text-align: center;
+    float: left;
+}
+
+.nav-right-name{
+    font-size: 14px;
+    color: #fff;
+    width: 120px;
+    line-height: 48px;
+    text-align: center;
+    float: right;
+}
+
+.nav-right-signout{
+    display: none;
+    width: 100px;
+    height: 80px;
+    background: rgba(57, 61, 73, 0.9);
+    position: absolute;
+    right: 10px;
+    top: 48px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid grey;
+}
+
+.nav-right-signout dd:hover{
+    background:  #1e9fff;
+}
+
+.nav-right-signout a{
+    color: #fff;
+}
+
+.nav-right-name:hover .nav-right-signout{
+    display: block;
+}
+
+.sidebar{
+    font-size: 14px;
+    float: left;
+    background: rgba(57, 61, 73, 0.9);
+    width: 150px;
+    position: absolute;
+    top: 48px;
+    bottom: 0;
+    left: 0;
+}
+
+.sidebar ul li{
+    padding-left: 30px;
+    line-height: 40px;
+}
+
+.sidebar ul li a{
+    color: #fff;
+}
+
+.sidebar .active-li, .sidebar ul li:hover{
+    background: #1e9fff;
+}
+
+.sidebar ul li span{
+    padding: 10px;
+}
+
+.wrapper{
+    min-height: 500px;
+    margin-left: 150px;
+    overflow: auto;
+}
+
+.content{
+    padding: 10px 15px 7px 15px;
+    background-color: #fff;
+}
+
+.content p{
+    float: left;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.form-class{
+    float: left;
+    width: 300px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.form-text{
+    height: 22px;
+}
+
+.form-submit{
+    font-size: 20px;
+    vertical-align: -2px;
+    width: 30px;
+}
+
+.button-insert{
+    float: left;
+    width: 100px;
+    margin: 0 5px;
+    height: 30px;
+    text-align: center;
+    background: rgba(82, 183, 109, 1);
+    color: #fff;
+    border-radius: 10px;
+}
+
+.table-list{
+    width: 100%;
+    word-break: break-all;
+}
+
+.type-list{
+    width: 400px;  /*资产类型表格宽度设置*/
+}
+
+table, td, th {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    line-height: 1.8em;
+    font-size: 14px;
+}
+
+.more-text{
+    overflow: hidden;
+    max-height: 60px;
+}
+
+th{
+    background-color:#666;
+    color:white;
+}
+
+td{
+    padding-left: 2px;
+    max-width: 120px;
+    min-width: 20px;
+}
+
+td a{
+    color: blue;
+}
+
+.page{
+    width:300px;
+    padding-top: 10px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.pagination li{
+    display: inline-block;
+    background: #fff;
+    padding: 5px;
+    min-width: 15px;
+    border: 1px solid #E2E2E2;
+}
+
+.pagination li a{
+    color: #222;
+}
+
+.pagination .active{
+    background: #1e9fff;
+}

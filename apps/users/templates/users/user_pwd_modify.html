@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 修改密码{% endblock %}
+{% block custome_css %}
+    <link rel="stylesheet" href="{% static 'servers/css/server-add.css' %}">
+    <link rel="stylesheet" href="{% static 'servers/css/server-detail.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p class="content-note1">修改密码<span class="content-note2"> (标注为*为必填项)</span></p>
+        <div style="clear:both"></div>
+        <form class="form-table" action="{% url 'users:user_pwd_modify' %}" method="post">
+            <div class="form-list">
+                <span>*新密码</span><input {% if user_pwd_modify_form.errors.pwd1 %}class="input-error"{% endif %} id="pwd1" type="password" name="pwd1" value="{{ user.pwd1 }}"/>
+            </div>
+            <div class="form-list">
+                <span>*确认密码</span><input {% if user_pwd_modify_form.errors.pwd2 %}class="input-error"{% endif %} id="pwd2" type="password" name="pwd2" value="{{ user.pwd2 }}"/>
+            </div>
+            {% if msg %}
+                <div class="error">{{ msg }}</div>
+            {% endif %}
+            <div style="clear:both"></div>
+            <div class="form-list">
+                <input id="pwd_reset" class="form-button" type="submit" value="保存"/>
+            </div>
+            <div class="form-list">
+                 <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        var pwd_reset = document.getElementById("pwd_reset");
+        pwd_reset.onclick = function() {
+            var pwd1 = document.getElementById("pwd1").value;
+            var pwd2 = document.getElementById("pwd2").value;
+            if(pwd1===pwd2 && !!pwd1){
+                alert("密码修改成功，请重新登录！");
+            }
+        };
+
+        function btn_cancel() {
+            location.href = "{% url 'index' %}";
+        }
+    </script>
+{% endblock %}

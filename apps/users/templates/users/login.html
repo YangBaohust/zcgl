@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>资产管理 - 登录</title>
+    <link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+</head>
+<body class="login-bg">
+    <div class="login-content">
+        <div class="login-title">资产管理登录</div>
+        <form action="" method="post">
+            <input class="login-input topline {% if login_form.errors.username %}input-error{% endif %}" type="text" name="username" placeholder="用户名">
+            <input class="login-input {% if login_form.errors.password %}input-error{% endif %}" type="password" name="password" placeholder="密码">
+            {% if msg %}
+                <div class="error">{{ msg }}</div>
+            {% endif %}
+            <input class="login-input login-submit" type="submit">
+            {% csrf_token %}
+        </form>
+    </div>
+</body>
+</html>

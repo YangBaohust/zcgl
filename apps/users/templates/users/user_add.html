@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 添加人员{% endblock %}
+{% block custome_css %}
+    <link rel="stylesheet" href="{% static 'servers/css/server-add.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p class="content-note1">添加人员<span class="content-note2"> (标注为*为必填项)</span></p>
+        <div style="clear:both"></div>
+        <form class="form-table" action="{% url 'users:user_add' %}" method="post">
+            <div class="form-list">
+                <span>*姓名</span><input {% if userinfo_form.errors.username %}class="input-error"{% endif %} type="text" name="username"/>
+            </div>
+            <div class="form-list">
+                <span>部门</span><input {% if userinfo_form.errors.department %}class="input-error"{% endif %} type="text" name="department" placeholder="不超过15个字符"/>
+            </div>
+            <div class="form-list">
+                <span>办公电话</span><input {% if userinfo_form.errors.bg_telephone %}class="input-error"{% endif %} type="text" name="bg_telephone" placeholder="不超过12个字符，区号用-隔开"/>
+            </div>
+            <div class="form-list">
+                <span>手机号码</span><input {% if userinfo_form.errors.mobile %}class="input-error"{% endif %} type="text" name="mobile" placeholder="不超过11个字符"/>
+            </div>
+            <div class="form-list">
+                <span>公司邮箱</span><input type="text" name="email" placeholder="不超过30个字符"/>
+            </div>
+            <div class="form-list">
+                <span>管理员</span>
+                <select name="isadmin">
+                    <option value="1">是</option>
+                    <option value="0" selected>否</option>
+                </select>
+            </div>
+            {% if msg %}
+                <div class="error">{{ msg }}</div>
+            {% endif %}
+            <div style="clear:both"></div>
+            <div class="form-list">
+                <input class="form-button" type="submit"/>
+            </div>
+            <div class="form-list">
+                 <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        function btn_cancel() {
+            location.href = "{% url 'users:user_list' %}";
+        }
+    </script>
+{% endblock %}

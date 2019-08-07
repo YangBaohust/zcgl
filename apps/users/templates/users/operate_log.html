@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 操作日志{% endblock %}
+{% block custome_css %}
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p>操作日志</p>
+        <div class="form-class">
+            <form>
+                <input id="search" class="form-text" type="text" placeholder="搜索..." name="search" value="{% if search %}{{ search }}{% endif %}"/>
+                <button class="form-submit" type="submit">
+                    <i class='fa fa-search' aria-hidden='true'></i>
+                </button>
+            </form>
+        </div>
+        <br/><br/>
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>人员</th>
+                    <th>操作范围</th>
+                    <th>操作类型</th>
+                    <th>操作内容</th>
+                    <th>操作时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for operate_log in operate_logs.object_list %}
+                <tr>
+                    <td>{{ forloop.counter|add:start }}</td>
+                    <td>{{ operate_log.username }}</td>
+                    <td>{{ operate_log.scope }}</td>
+                    <td>{{ operate_log.type }}</td>
+                    <td><a href="{% url 'servers:server_detail' operate_log.content %}#hist" target="_blank">id编号{{ operate_log.content }}</a></td>
+                    <td>{{ operate_log.modify_time|date:"Y-m-d H:i:s" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        <div class="page">
+            <ul class="pagination">
+                {% if operate_logs.has_previous %}
+                    <li><a href="?{{ operate_logs.previous_page_number.querystring }}">&laquo;</a></li>
+                {% endif %}
+                {% for page in operate_logs.pages %}
+                    {% if page %}
+                        {% ifequal page operate_logs.number %}
+                            <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li>...</li>
+                    {% endif %}
+                {% endfor %}
+                {% if operate_logs.has_next %}
+                    <li><a href="?{{ operate_logs.next_page_number.querystring }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

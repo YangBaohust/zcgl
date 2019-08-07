@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 人员列表{% endblock %}
+{% block custome_css %}
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p>人员列表</p>
+        <div class="form-class">
+            <form action="" method="get">
+                <input id="search" class="form-text" type="text" placeholder="搜索..." name="search" value="{% if search %}{{ search }}{% endif %}"/>
+                <button class="form-submit" type="submit">
+                    <i class='fa fa-search' aria-hidden='true'></i>
+                </button>
+            </form>
+        </div>
+        <button class="button-insert" id="btn_add">添加人员</button>
+        <button class="button-insert" id="btn_export_list">导出列表</button>
+        <br/><br/>
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>部门</th>
+                    <th>办公电话</th>
+                    <th>手机号码</th>
+                    <th>公司邮箱</th>
+                    <th>管理员</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in p_users.object_list %}
+                    <tr>
+                        <td>{{ forloop.counter|add:start }}</td>
+                        <td><a href="{% url 'users:user_detail' user.id %}">{{ user.username }}</a></td>
+                        <td>{{ user.department }}</td>
+                        <td>{{ user.bg_telephone }}</td>
+                        <td>{{ user.mobile }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.get_isadmin_display }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="page">
+            <ul class="pagination">
+                {% if p_users.has_previous %}
+                    <li><a href="?{{ p_users.previous_page_number.querystring }}">&laquo;</a></li>
+                {% endif %}
+                {% for page in p_users.pages %}
+                    {% if page %}
+                        {% ifequal page p_users.number %}
+                            <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li>...</li>
+                    {% endif %}
+                {% endfor %}
+                {% if p_users.has_next %}
+                    <li><a href="?{{ p_users.next_page_number.querystring }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        var btn_person_add = document.getElementById("btn_add");
+        btn_person_add.onclick = function () {
+            location.href = "{% url 'users:user_add' %}";
+        };
+
+        var btn_export_list = document.getElementById("btn_export_list");
+        btn_export_list.onclick = function() {
+            var search = document.getElementById("search").value;
+            var url = "{% url 'users:user_export' %}";
+            location.href = url + '?search=' + search;
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'servers/css/server-list.css' %}">
+    {% block custome_css %}{% endblock %}
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-left">资产管理</div>
+        <div class="nav-right">
+            <div class="nav-right-name">{{ request.user.username }}<i class="fa fa-caret-down" aria-hidden="true"></i>
+                <dl class="nav-right-signout">
+                    <dd><a href="{% url 'users:user_pwd_modify' %}">修改密码</a></dd>
+                    <dd><a href="{% url 'users:user_logout' %}">退出</a></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li {% ifequal request.path '/' %}class="active-li"{% endifequal %}><a href="{% url 'index' %}"><i class="fa fa-tachometer" aria-hidden="true"></i><span class="">资产概览</span></a></li>
+            <li {% ifequal request.path|slice:20 '/servers/server/list' %}class="active-li"{% endifequal %}><a href="{% url 'servers:server_list' %}"><i class="fa fa-table" aria-hidden="true"></i><span>资产列表</span></a></li>
+            {% if request.user.isadmin == '1' or request.user.is_superuser == 1 %}
+                <li {% ifequal request.path|slice:18 '/servers/type/list' %}class="active-li"{% endifequal %}><a href="{% url 'servers:type_list' %}"><i class="fa fa-bars" aria-hidden="true"></i><span>资产类型</span></a></li>
+                <li {% ifequal request.path|slice:16 '/users/user/list' %}class="active-li"{% endifequal %}><a href="{% url 'users:user_list' %}"><i class="fa fa-user" aria-hidden="true"></i><span class="">人员管理</span></a></li>
+                <li {% ifequal request.path|slice:23 '/users/user/operate_log' %}class="active-li"{% endifequal %}><a href="{% url 'users:operate_log' %}"><i class="fa fa-book" aria-hidden="true"></i><span class="">日志记录</span></a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="wrapper">
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+        var sidebar = document.getElementById("sidebar");
+        var content_height = document.body.scrollHeight>window.innerHeight?document.body.scrollHeight-48:window.innerHeight-48;
+        sidebar.style.height = content_height+'px';
+    </script>
+    {% block custome_js %}{% endblock %}
+</body>
+</html>

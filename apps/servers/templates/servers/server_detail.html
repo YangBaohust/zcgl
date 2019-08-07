@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}资产管理 - 资产详情{% endblock %}
+{% block custome_css %}
+    <link rel="stylesheet" href="{% static 'servers/css/server-add.css' %}">
+    <link rel="stylesheet" href="{% static 'servers/css/server-detail.css' %}">
+{% endblock %}
+{% block content %}
+    {% if server %}
+        <div class="content">
+            <p class="content-note1">修改资产<span class="content-note2"> (标注为*为必填项)</span></p>
+            <div style="clear:both"></div>
+            <form class="form-table" action="{% url 'servers:server_modify' %}" method="post">
+                <input type="hidden" id="server_id" name="server_id" value="{{ server.id }}"/>
+                <div class="form-list">
+                    <span>*资产类型</span>
+                    <select {% if server_form.errors.zctype %}class="input-error"{% endif %} name="zctype">
+                        {% for server_type in server_types %}
+                            <option value="{{ server_type.id }}" {% ifequal server.zctype.id server_type.id %}selected{% endifequal %}>{{ server_type.zctype }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-list">
+                    <span>IP地址</span><input {% if server_form.errors.ipaddress %}class="input-error"{% endif %} type="text" name="ipaddress" value="{{ server.ipaddress }}" placeholder="不超过100个字符"/>
+                </div>
+                <div class="form-list">
+                    <span>功能描述</span><input {% if server_form.errors.description %}class="input-error"{% endif %} type="text" name="description" value="{{ server.description }}" placeholder="不超过50个字符"/>
+                </div>
+                <div class="form-list">
+                    <span>设备品牌</span><input {% if server_form.errors.brand %}class="input-error"{% endif %} type="text" name="brand" value="{{ server.brand }}" placeholder="不超过50个字符"/>
+                </div>
+                <div class="form-list">
+                    <span>设备型号</span><input {% if server_form.errors.zcmodel %}class="input-error"{% endif %} type="text" name="zcmodel" value="{{ server.zcmodel }}" placeholder="不超过50个字符"/>
+                </div>
+                <div class="form-list">
+                    <span>设备序号</span><input {% if server_form.errors.zcnumber %}class="input-error"{% endif %} type="text" name="zcnumber" value="{{ server.zcnumber }}" placeholder="不超过50个字符"/>
+                </div>
+                <div class="form-list">
+                    <span>设备配置</span><input {% if server_form.errors.zcpz %}class="input-error"{% endif %} type="text" name="zcpz" value="{{ server.zcpz }}" placeholder="不超过100个字符"/>
+                </div>
+                <div class="form-list">
+                    <span>*管理人员</span>
+                    <select name="owner">
+                        <option value="0" {% if not server.owner.id %}selected{% endif %}>空</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}" {% ifequal server.owner.id user.id %}selected{% endifequal %}>{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-list">
+                    <span>*所在网络</span>
+                    <select name="undernet" {% if server_form.errors.undernet %}class="input-error"{% endif %}>
+                        <option value="办公" {% ifequal server.undernet '办公' %}selected{% endifequal %}>办公</option>
+                        <option value="生产" {% ifequal server.undernet '生产' %}selected{% endifequal %}>生产</option>
+                        <option value="闲置" {% ifequal server.undernet '闲置' %}selected{% endifequal %}>闲置</option>
+                    </select>
+                </div>
+                <div class="form-list">
+                    <span>保修期</span><input type="text" name="guartime" value="{{ server.guartime }}" placeholder="格式示例:年-月-日,如2018-8-8"/>
+                </div>
+                <div class="form-list">
+                    <span class="comment">备注</span><textarea class="textarea {% if server_form.errors.comment %}input-error{% endif %}" name="comment" placeholder="不超过300个字符">{{ server.comment }}</textarea>
+                </div>
+                {% if msg %}
+                    <div class="error">{{ msg }}</div>
+                {% endif %}
+                <div style="clear:both"></div>
+                <div class="form-list">
+                    <input class="form-button" type="submit" value="保存"/>
+                </div>
+                <div class="form-list">
+                     <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
+                </div>
+                <div class="form-list">
+                     <button class="form-button form-button-del" type="button" onclick="btn_delete()">删除</button>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+    {% endif %}
+    <div class="content">
+        <a name="hist"></a>
+        <p>资产历史变动记录</p>
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>资产类型</th>
+                    <th>IP地址</th>
+                    <th>功能描述</th>
+                    <th>设备品牌</th>
+                    <th>设备型号</th>
+                    <th>设备序号</th>
+                    <th>设备配置</th>
+                    <th>管理人员</th>
+                    <th>所在网络</th>
+                    <th>保修期</th>
+                    <th>备注</th>
+                    <th>修改时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for server in p_server_hiss.object_list %}
+                    <tr>
+                        <td>{{ forloop.counter|add:start }}</td>
+                        <td>{{ server.zctype }}</td>
+                        <td>{{ server.ipaddress }}</td>
+                        <td>{{ server.description }}</td>
+                        <td>{{ server.brand }}</td>
+                        <td>{{ server.zcmodel }}</td>
+                        <td>{{ server.zcnumber }}</td>
+                        <td>{{ server.zcpz }}</td>
+                        <td>{{ server.owner.username }}</td>
+                        <td>{{ server.undernet }}</td>
+                        <td>{{ server.guartime }}</td>
+                        <td><div class="more-text">{{ server.comment }}</div></td>
+                        <td>{{ server.modify_time|date:"Y-m-d H:i:s" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="page">
+            <ul class="pagination">
+                {% if p_server_hiss.has_previous %}
+                    <li><a href="?{{ p_server_hiss.previous_page_number.querystring }}#hist">&laquo;</a></li>
+                {% endif %}
+                {% for page in p_server_hiss.pages %}
+                    {% if page %}
+                        {% ifequal page p_server_hiss.number %}
+                            <li class="active"><a href="?{{ page.querystring }}#hist">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}#hist">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li>...</li>
+                    {% endif %}
+                {% endfor %}
+                {% if p_server_hiss.has_next %}
+                    <li><a href="?{{ p_server_hiss.next_page_number.querystring }}#hist">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        function btn_cancel() {
+            location.href = "{% url 'servers:server_list' %}";
+        }
+
+        function btn_delete() {
+            var server_id = document.getElementById("server_id").value;
+            var url = "{% url 'servers:server_delete' 0 %}";
+            var conf = confirm("确定删掉该条数据？");
+            if (conf){
+                location.href = url.replace('0', server_id);
+            }
+        }
+        var sidebar = document.getElementById("sidebar");
+        var content_height = document.body.scrollHeight>window.innerHeight?document.body.scrollHeight-48:window.innerHeight-48;
+        sidebar.style.height = content_height+'px';
+    </script>
+{% endblock %}
