@@ -3,6 +3,7 @@
 后端采用python3.6 + django2.2
 前端采用html + css + js
 希望你们能喜欢这个项目，有bug可以联系我(yangbhust@163.com)
+项目的经过可以看本人博客https://www.cnblogs.com/ddzj01/p/11316837.html
 
 # 下面是项目的部分截图
 首页

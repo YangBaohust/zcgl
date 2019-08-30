@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = '74+-r=c=(lv+%n1@&o$hu6c@2mrkv9l^90iailhhzlrjmk)k^j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -83,9 +83,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'zcgl',
-        'USER': '**********',
-        'PASSWORD': '**********',
-        'HOST': '***********',
+        'USER': 'scott',
+        'PASSWORD': 'tiger',
+        'HOST': '10.40.16.60',
     }
 }
 
@@ -128,11 +128,11 @@ USE_TZ = False
 # 静态文件相关设置
 STATIC_URL = '/static/'
 
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'static')
-#]
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, 'static')
+]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 扩展django自带的user model，添加字段
 AUTH_USER_MODEL = 'users.UserProfile'
