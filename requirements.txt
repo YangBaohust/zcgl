@@ -2,7 +2,7 @@ Django==2.2.3
 django-excel==0.0.10
 django-pure-pagination==0.3.0
 lml==0.0.9
-mysqlclient==1.4.2.post1
+mysqlclient==1.4.2
 pyexcel==0.5.15
 pyexcel-io==0.5.20
 pyexcel-webio==0.1.4

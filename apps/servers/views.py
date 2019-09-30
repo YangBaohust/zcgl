@@ -28,12 +28,20 @@ class ServerListView(LoginRequiredMixin, View):
         search = request.GET.get('search')
         if search:
             search = request.GET.get('search').strip()
-            servers = Server.objects.filter(Q(zctype__zctype__icontains=search) | Q(ipaddress__icontains=search)
-                                            | Q(description__icontains=search) | Q(brand__icontains=search)
-                                            | Q(zcmodel__icontains=search) | Q(zcnumber__icontains=search)
-                                            | Q(zcpz__icontains=search) | Q(owner__username__icontains=search))
+            search_int = search
+            try:
+                search_int = int(search)
+            except Exception:
+                pass
+
+            servers = Server.objects.filter(Q(id=search_int) | Q(zctype__zctype__icontains=search)
+                                            | Q(ipaddress__icontains=search) | Q(description__icontains=search)
+                                            | Q(brand__icontains=search) | Q(zcmodel__icontains=search)
+                                            | Q(zcnumber__icontains=search) | Q(comment__icontains=search)
+                                            | Q(zcpz__icontains=search) | Q(owner__username__icontains=search)).\
+                order_by('zctype', 'id')
         else:
-            servers = Server.objects.all()
+            servers = Server.objects.all().order_by('zctype', 'id')
 
         # 分页功能实现
         try:
@@ -49,7 +57,7 @@ class ServerListView(LoginRequiredMixin, View):
 # 资产添加
 class ServerAddView(LoginRequiredMixin, View):
     def get(self, request):
-        users = UserProfile.objects.filter(is_superuser=0)
+        users = UserProfile.objects.filter(is_superuser=0, is_staff='1')
         server_types = ServerType.objects.all()
         return render(request, 'servers/server_add.html', {'users': users, 'server_types': server_types})
 
@@ -98,7 +106,7 @@ class ServerAddView(LoginRequiredMixin, View):
 class ServerDetailView(LoginRequiredMixin, View):
     def get(self, request, server_id):
         server = Server.objects.filter(id=server_id).first()
-        users = UserProfile.objects.filter(is_superuser=0)
+        users = UserProfile.objects.filter(is_superuser=0, is_staff='1')
         server_types = ServerType.objects.all()
         server_hiss = ServerHis.objects.filter(serverid=server_id).order_by('-modify_time')
 
@@ -151,7 +159,7 @@ class ServerModifyView(LoginRequiredMixin, View):
             new_log.save()
             return HttpResponseRedirect((reverse('servers:server_list')))
         else:
-            users = UserProfile.objects.filter(is_superuser=0)
+            users = UserProfile.objects.filter(is_superuser=0, is_staff='1')
             server_types = ServerType.objects.all()
             return render(request, 'servers/server_detail.html', {'users': users, 'server': server,
                                                                   'server_types': server_types,
@@ -191,9 +199,10 @@ class ServerExportView(LoginRequiredMixin, View):
             servers = Server.objects.filter(Q(zctype__zctype__icontains=search) | Q(ipaddress__icontains=search)
                                             | Q(description__icontains=search) | Q(brand__icontains=search)
                                             | Q(zcmodel__icontains=search) | Q(zcnumber__icontains=search)
-                                            | Q(zcpz__icontains=search) | Q(owner__username__icontains=search))
+                                            | Q(zcpz__icontains=search) | Q(owner__username__icontains=search)).\
+                order_by('zctype')
         else:
-            servers = Server.objects.all()
+            servers = Server.objects.all().order_by('zctype')
         servers = servers.values('id', 'zctype__zctype', 'ipaddress', 'description', 'brand', 'zcmodel', 'zcnumber',
                                  'zcpz', 'owner__username', 'undernet', 'guartime', 'comment')
         colnames = ['序号', '资产类型', 'IP地址', '功能描述', '设备品牌', '设备型号', '设备序号', '设备配置',

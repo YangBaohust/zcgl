@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = '74+-r=c=(lv+%n1@&o$hu6c@2mrkv9l^90iailhhzlrjmk)k^j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 部署到生产中需要将debug改为false
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -85,7 +86,7 @@ DATABASES = {
         'NAME': 'zcgl',
         'USER': 'scott',
         'PASSWORD': 'tiger',
-        'HOST': '10.40.16.60',
+        'HOST': '10.40.16.61',
     }
 }
 
@@ -128,10 +129,12 @@ USE_TZ = False
 # 静态文件相关设置
 STATIC_URL = '/static/'
 
+# 部署到生产中将此选项注释
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, 'static')
 ]
 
+# 部署到生产中将此选项注释取消
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 扩展django自带的user model，添加字段
@@ -139,7 +142,7 @@ AUTH_USER_MODEL = 'users.UserProfile'
 
 # 分页的相关设置
 PAGINATION_SETTINGS = {
-    'PAGE_RANGE_DISPLAYED': 3,
+    'PAGE_RANGE_DISPLAYED': 8,
     'MARGIN_PAGES_DISPLAYED': 1,
     'SHOW_FIRST_PAGE_WHEN_INVALID': True,
 }

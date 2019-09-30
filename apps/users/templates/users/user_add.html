@@ -13,6 +13,9 @@
                 <span>*姓名</span><input {% if userinfo_form.errors.username %}class="input-error"{% endif %} type="text" name="username"/>
             </div>
             <div class="form-list">
+                <span>工号</span><input {% if userinfo_form.errors.staff_no %}class="input-error"{% endif %} type="text" name="staff_no"  placeholder="不超过15个字符"/>
+            </div>
+            <div class="form-list">
                 <span>部门</span><input {% if userinfo_form.errors.department %}class="input-error"{% endif %} type="text" name="department" placeholder="不超过15个字符"/>
             </div>
             <div class="form-list">

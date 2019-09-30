@@ -22,11 +22,13 @@
                 <tr>
                     <th>序号</th>
                     <th>姓名</th>
+                    <th>工号</th>
                     <th>部门</th>
                     <th>办公电话</th>
                     <th>手机号码</th>
                     <th>公司邮箱</th>
                     <th>管理员</th>
+                    <th>在职</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,11 +36,13 @@
                     <tr>
                         <td>{{ forloop.counter|add:start }}</td>
                         <td><a href="{% url 'users:user_detail' user.id %}">{{ user.username }}</a></td>
+                        <td>{{ user.staff_no }}</td>
                         <td>{{ user.department }}</td>
                         <td>{{ user.bg_telephone }}</td>
                         <td>{{ user.mobile }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.get_isadmin_display }}</td>
+                        <td>{{ user.get_is_staff_display }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

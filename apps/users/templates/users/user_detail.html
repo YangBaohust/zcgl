@@ -15,6 +15,9 @@
                 <span>*姓名</span><input {% if userinfo_form.errors.username %}class="input-error"{% endif %} type="text" id="username" name="username" value="{{ user.username }}"/>
             </div>
             <div class="form-list">
+                <span>工号</span><input {% if userinfo_form.errors.staff_no %}class="input-error"{% endif %} type="text" id="staff_no" name="staff_no" value="{{ user.staff_no }}"/>
+            </div>
+            <div class="form-list">
                 <span>部门</span><input {% if userinfo_form.errors.department %}class="input-error"{% endif %} type="text" name="department" value="{{ user.department }}" placeholder="不超过15个字符"/>
             </div>
             <div class="form-list">
@@ -33,6 +36,13 @@
                     <option value="0" {% ifequal user.isadmin '0' %}selected{% endifequal %}>否</option>
                 </select>
             </div>
+            <div class="form-list">
+                <span>在职</span>
+                <select name="is_staff">
+                    <option value="1" {% ifequal user.is_staff "1" %}selected{% endifequal %}>是</option>
+                    <option value="0" {% ifequal user.is_staff "0" %}selected{% endifequal %}>否</option>
+                </select>
+            </div>
             {% if msg %}
                 <div class="error">{{ msg }}</div>
             {% endif %}
@@ -43,9 +53,9 @@
             <div class="form-list">
                  <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
             </div>
-            <div class="form-list">
-                 <button class="form-button form-button-del" type="button" onclick="btn_delete()">删除</button>
-            </div>
+{#            <div class="form-list">#}
+{#                 <button class="form-button form-button-del" type="button" onclick="btn_delete()">删除</button>#}
+{#            </div>#}
             <div class="form-list">
                  <button class="form-button form-button-pwdreset" type="button" onclick="btn_pwdreset()">重置密码</button>
             </div>

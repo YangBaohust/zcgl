@@ -38,7 +38,8 @@
             <tbody>
                 {% for server in p_servers.object_list %}
                     <tr>
-                        <td>{{ forloop.counter|add:start }}</td>
+{#                        <td>{{ forloop.counter|add:start }}</td>#}
+                        <td>{{ server.id }}</td>
                         {% if request.user.isadmin == '1' or request.user.is_superuser == 1 %}
                             <td><a href="{% url 'servers:server_detail' server.id %}">{{ server.zctype }}</a></td>
                         {% else %}

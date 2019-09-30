@@ -76,11 +76,12 @@ class UserListView(LoginRequiredMixin, View):
         search = request.GET.get('search')
         if search:
             search = request.GET.get('search').strip()
-            users = UserProfile.objects.filter(Q(username__icontains=search) | Q(department__icontains=search)
-                                               | Q(bg_telephone__icontains=search) | Q(mobile__icontains=search)
-                                               | Q(email__icontains=search), is_superuser=0)  # 排除超级管理员
+            users = UserProfile.objects.filter(Q(username__icontains=search) | Q(staff_no__icontains=search)
+                                               | Q(department__icontains=search) | Q(bg_telephone__icontains=search)
+                                               | Q(mobile__icontains=search) | Q(email__icontains=search),
+                                               is_superuser=0).order_by('-is_staff', 'staff_no')  # 排除超级管理员
         else:
-            users = UserProfile.objects.filter(is_superuser=0)  # 排除超级管理员
+            users = UserProfile.objects.filter(is_superuser=0).order_by('-is_staff', 'staff_no')  # 排除超级管理员
 
         # 分页功能实现
         try:
@@ -102,6 +103,7 @@ class UserAddView(LoginRequiredMixin, View):
         userinfo_form = UserInfoForm(request.POST)
         if userinfo_form.is_valid():
             username = request.POST.get('username').strip()
+            staff_no = request.POST.get('staff_no').strip()
             department = request.POST.get('department').strip()
             bg_telephone = request.POST.get('bg_telephone').strip()
             mobile = request.POST.get('mobile').strip()
@@ -111,7 +113,7 @@ class UserAddView(LoginRequiredMixin, View):
             if user:
                 return render(request, 'users/user_add.html', {'msg': '用户 '+username+' 已存在！'})
             else:
-                new_user = UserProfile(username=username, password=make_password(pwd), department=department,
+                new_user = UserProfile(username=username, staff_no=staff_no, password=make_password(pwd), department=department,
                                        bg_telephone=bg_telephone, mobile=mobile, email=email, isadmin=isadmin)
                 new_user.save()
                 return HttpResponseRedirect((reverse('users:user_list')))
@@ -140,11 +142,13 @@ class UserModifyView(LoginRequiredMixin, View):
                 return render(request, 'users/user_detail.html', {'user': user, 'msg': username+'用户名已存在！'})
             else:
                 user.username = request.POST.get('username').strip()
+                user.staff_no = request.POST.get('staff_no').strip()
                 user.department = request.POST.get('department').strip()
                 user.bg_telephone = request.POST.get('bg_telephone').strip()
                 user.mobile = request.POST.get('mobile').strip()
                 user.email = request.POST.get('email').strip()
                 user.isadmin = request.POST.get('isadmin')
+                user.is_staff = request.POST.get('is_staff')
                 user.save()
                 return HttpResponseRedirect((reverse('users:user_list')))
         else:
@@ -175,12 +179,13 @@ class UserExportView(LoginRequiredMixin, View):
         search = request.GET.get('search')
         if search:
             search = request.GET.get('search').strip()
-            users = UserProfile.objects.filter(Q(username__icontains=search) | Q(department__icontains=search)
-                                               | Q(bg_telephone__icontains=search) | Q(mobile__icontains=search)
-                                               | Q(email__icontains=search, is_superuser=0))
+            users = UserProfile.objects.filter(Q(username__icontains=search) | Q(staff_no__icontains=search)
+                                               | Q(department__icontains=search) | Q(bg_telephone__icontains=search)
+                                               | Q(mobile__icontains=search) | Q(email__icontains=search,
+                                               is_superuser=0)).order_by('-is_staff', 'staff_no')
         else:
-            users = UserProfile.objects.filter(is_superuser=0)
-        columns_names = ['id', 'username', 'department', 'bg_telephone', 'mobile', 'email']
+            users = UserProfile.objects.filter(is_superuser=0).order_by('-is_staff', 'staff_no')
+        columns_names = ['id', 'username', 'staff_no', 'department', 'bg_telephone', 'mobile', 'email', 'is_staff']
         return excel.make_response_from_query_sets(users, columns_names, 'xls', file_name='人员列表')
 
 
