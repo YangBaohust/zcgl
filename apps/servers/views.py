@@ -28,18 +28,22 @@ class ServerListView(LoginRequiredMixin, View):
         search = request.GET.get('search')
         if search:
             search = request.GET.get('search').strip()
-            search_int = search
+            # 如果输入的是纯数字，则将序号也加入到搜索的列表中来
             try:
                 search_int = int(search)
+                servers = Server.objects.filter(Q(id=search_int) | Q(zctype__zctype__icontains=search)
+                                                | Q(ipaddress__icontains=search) | Q(description__icontains=search)
+                                                | Q(brand__icontains=search) | Q(zcmodel__icontains=search)
+                                                | Q(zcnumber__icontains=search) | Q(comment__icontains=search)
+                                                | Q(zcpz__icontains=search) | Q(owner__username__icontains=search)). \
+                    order_by('zctype', 'id')
             except Exception:
-                pass
-
-            servers = Server.objects.filter(Q(id=search_int) | Q(zctype__zctype__icontains=search)
-                                            | Q(ipaddress__icontains=search) | Q(description__icontains=search)
-                                            | Q(brand__icontains=search) | Q(zcmodel__icontains=search)
-                                            | Q(zcnumber__icontains=search) | Q(comment__icontains=search)
-                                            | Q(zcpz__icontains=search) | Q(owner__username__icontains=search)).\
-                order_by('zctype', 'id')
+                servers = Server.objects.filter(Q(zctype__zctype__icontains=search)
+                                                | Q(ipaddress__icontains=search) | Q(description__icontains=search)
+                                                | Q(brand__icontains=search) | Q(zcmodel__icontains=search)
+                                                | Q(zcnumber__icontains=search) | Q(comment__icontains=search)
+                                                | Q(zcpz__icontains=search) | Q(owner__username__icontains=search)). \
+                    order_by('zctype', 'id')
         else:
             servers = Server.objects.all().order_by('zctype', 'id')
 
