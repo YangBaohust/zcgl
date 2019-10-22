@@ -4,9 +4,16 @@
 前端采用html + css + js  
 希望你们能喜欢这个项目，有bug可以联系我(yangbhust@163.com)  
 项目的经过可以看本人博客https://www.cnblogs.com/ddzj01/p/11316837.html  
+这个项目放到网上之后，有不少人发邮件给我，说不知道如何启动项目，了解下来，基本上都是刚接触django的，想通过这个简单的项目来学习如何使用django。为了不误人子弟，特意将该项目重写了一遍，尽量做到代码和命名规范。并在readme.md中介绍如何启动项目。  
 
-# 如何部署
-
+# 如何启动项目
+1. 创建数据库，create database zcgl;  
+2. 创建数据库用户，grant all on zcgl.* to scott@'%' identified by 'tiger';  
+3. 将settings.py中DATABASES进行相关修改  
+4. 安装相关包，pip install -r requirements.txt，如果是linux环境还需要先修改requirements.txt    
+5. 迁移数据库，python manage.py migrate  
+6. 创建超级用户，python manage.py createsuperuser  
+6. 启动项目，python manage.py runserver 0.0.0.0:8000  
 
 # 下面是项目的部分截图
 首页
