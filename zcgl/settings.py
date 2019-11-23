@@ -66,7 +66,7 @@ DATABASES = {
         'NAME': 'zcgl',
         'USER': 'scott',
         'PASSWORD': 'tiger',
-        'HOST': '10.40.16.61',
+        'HOST': '192.168.0.72',
     }
 }
 
