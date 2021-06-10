@@ -1,4 +1,4 @@
-Django==2.2.3
+Django==2.2.24
 django-excel==0.0.10
 django-pure-pagination==0.3.0
 lml==0.0.9
